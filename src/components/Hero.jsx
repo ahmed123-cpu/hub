@@ -5,21 +5,21 @@ import "./Hero.css";
 const slides = [
   {
     id: 1,
-    image: "./public/laptop-stand.png",
+    image: "./laptop-stand.png",
     title: "Welcome to Qanas-Hub",
     subtitle: "Discover amazing products at unbeatable prices",
     buttonText: "Shop Now",
   },
   {
     id: 2,
-    image: "./public/wireless-headphones.png",
+    image: "./wireless-headphones.png",
     title: "Latest Collections",
     subtitle: "Stay ahead with our newest arrivals",
     buttonText: "Explore",
   },
   {
     id: 3,
-    image: "./public/bluetooth-speaker.jpg",
+    image: "./bluetooth-speaker.jpg",
     title: "Unbeatable Offers",
     subtitle: "Grab your favorite items at the best prices",
     buttonText: "Get Started",
