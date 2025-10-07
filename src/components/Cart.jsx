@@ -1,5 +1,3 @@
-"use client"
-
 import { FaMinus, FaPlus } from "react-icons/fa";
 import "./Cart.css"
 import { AiFillDelete } from "react-icons/ai";

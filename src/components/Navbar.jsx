@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import "./Navbar.css"
 import { FaShoppingCart } from "react-icons/fa";

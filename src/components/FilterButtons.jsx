@@ -1,5 +1,3 @@
-"use client"
-
 import "./FilterButtons.css"
 
 function FilterButtons({ selectedCategory, onCategoryChange }) {

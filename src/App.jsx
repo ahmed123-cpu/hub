@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -10,13 +8,15 @@ import Deals from "./components/Deals";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Cart from "./components/Cart";
+import Loader from "./components/Loader";
 import "./App.css";
 
 function App() {
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // 🟢 استرجاع cart من localStorage عند أول تحميل
+  // 🟢 Load cart from localStorage at startup
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
@@ -24,10 +24,24 @@ function App() {
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // 🟢 حفظ cart في localStorage عند كل تعديل
+  // 🟢 Save cart to localStorage on update
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
+
+  // 🟢 Hide loader after page fully loads
+  useEffect(() => {
+    const handleLoad = () => setLoading(false);
+    window.addEventListener("load", handleLoad);
+
+    // Fallback if load event delays
+    const timer = setTimeout(() => setLoading(false), 2000);
+
+    return () => {
+      window.removeEventListener("load", handleLoad);
+      clearTimeout(timer);
+    };
+  }, []);
 
   const products = [
     { id: 1, name: "Wireless Headphones", price: 79.99, category: "electronics", rating: 4.5, image: "/wireless-headphones.png" },
@@ -44,22 +58,20 @@ function App() {
     { id: 12, name: "Throw Pillows", price: 49.99, category: "home", rating: 4.3, image: "/decorative-throw-pillows.png" },
   ];
 
-  // فلترة المنتجات
+  // 🟢 Filter products
   const filteredProducts = products.filter((product) => {
     const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
-  // 🟢 إضافة منتج للسلة
+  // 🟢 Add to cart
   const addToCart = (product) => {
     const existingItem = cartItems.find((item) => item.id === product.id);
     if (existingItem) {
       setCartItems(
         cartItems.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         )
       );
     } else {
@@ -67,12 +79,12 @@ function App() {
     }
   };
 
-  // إزالة منتج من السلة
+  // 🟢 Remove from cart
   const removeFromCart = (productId) => {
     setCartItems(cartItems.filter((item) => item.id !== productId));
   };
 
-  // تعديل الكمية
+  // 🟢 Update quantity
   const updateQuantity = (productId, newQuantity) => {
     if (newQuantity === 0) {
       removeFromCart(productId);
@@ -86,6 +98,8 @@ function App() {
   };
 
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  if (loading) return <Loader />;
 
   return (
     <div className="app">

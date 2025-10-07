@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import "./Contact.css"
 import { FaLocationDot } from "react-icons/fa6";
