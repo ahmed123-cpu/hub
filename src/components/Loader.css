@@ -1,27 +1,30 @@
 .loader-container {
     position: fixed;
     inset: 0;
-    background: red;
+    background-color: #fff;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    opacity: 1;
-    transition: opacity 0.5s ease;
-  }
-  
-  .loader-container.fade-out {
-    opacity: 0;
-    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
   }
   
   .spinner {
     width: 60px;
     height: 60px;
-    border: 5px solid #ddd;
+    border: 6px solid #ddd;
     border-top-color: #ff6b35;
     border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+  }
+  
+  .loader-text {
+    font-size: 1rem;
+    color: #444;
+    font-weight: 500;
+    letter-spacing: 1px;
   }
   
   @keyframes spin {
@@ -29,5 +32,4 @@
       transform: rotate(360deg);
     }
   }
-
   

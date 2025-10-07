@@ -3,8 +3,9 @@ import "./Loader.css";
 
 export default function Loader() {
   return (
-    <div className="loader-container fade-out">
+    <div className="loader-container">
       <div className="spinner"></div>
+      <p className="loader-text">Loading...</p>
     </div>
   );
 }

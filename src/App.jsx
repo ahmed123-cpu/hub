@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Loader from "./components/Loader"; // ✅ loader import
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import FilterButtons from "./components/FilterButtons";
@@ -8,15 +9,14 @@ import Deals from "./components/Deals";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Cart from "./components/Cart";
-import Loader from "./components/Loader";
 import "./App.css";
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // ✅ show loader initially
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // 🟢 Load cart from localStorage at startup
+  // 🟢 Load cart from localStorage
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
@@ -24,22 +24,26 @@ function App() {
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // 🟢 Save cart to localStorage on update
+  // 🟢 Save cart on every update
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // 🟢 Hide loader after page fully loads
+  // 🟢 Loader logic — hide after page loads
   useEffect(() => {
-    const handleLoad = () => setLoading(false);
+    const handleLoad = () => {
+      setTimeout(() => setLoading(false), 800); // smooth fade delay
+    };
+
+    // trigger when full page is loaded
     window.addEventListener("load", handleLoad);
 
-    // Fallback if load event delays
-    const timer = setTimeout(() => setLoading(false), 2000);
+    // fallback: hide loader after 5s in case of slow load
+    const fallback = setTimeout(() => setLoading(false), 5000);
 
     return () => {
       window.removeEventListener("load", handleLoad);
-      clearTimeout(timer);
+      clearTimeout(fallback);
     };
   }, []);
 
@@ -79,7 +83,7 @@ function App() {
     }
   };
 
-  // 🟢 Remove from cart
+  // 🟢 Remove item
   const removeFromCart = (productId) => {
     setCartItems(cartItems.filter((item) => item.id !== productId));
   };
@@ -99,6 +103,7 @@ function App() {
 
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
+  // ✅ Show loader first
   if (loading) return <Loader />;
 
   return (
